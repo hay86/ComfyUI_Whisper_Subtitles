@@ -22,6 +22,14 @@ class AddSubtitlesToFramesNode:
                     "step":5,
                     "display": "number"
                 }),
+                "stroke_color": ("STRING",{
+                    "default": "black"
+                }),
+                "stroke_width": ("INT",{
+                    "default": 5,
+                    "step":1,
+                    "display": "number"
+                }),
                 "x_position": ("INT",{
                     "default": 100,
                     "step":50,
@@ -48,7 +56,7 @@ class AddSubtitlesToFramesNode:
     CATEGORY = "whisper"
 
 
-    def add_subtitles_to_frames(self, images, alignment, font_family, font_size, font_color, x_position, y_position, center_x, center_y, video_fps):
+    def add_subtitles_to_frames(self, images, alignment, font_family, font_size, font_color, stroke_color, stroke_width, x_position, y_position, center_x, center_y, video_fps):
         pil_images = tensor2pil(images)
 
         pil_images_with_text = []
@@ -104,6 +112,11 @@ class AddSubtitlesToFramesNode:
                     text_height = text_bbox[3] - text_bbox[1]
                     y_position = (height - text_height)/2
 
+                # add stroke to video frames
+                for dx in range(-stroke_width, stroke_width + 1):
+                    for dy in range(-stroke_width, stroke_width + 1):
+                        if dx != 0 or dy != 0:
+                            d.text((x_position + dx, y_position + dy), alignment_obj["value"], font=font, fill=stroke_color)
 
                 # add text to video frames
                 d.text((x_position, y_position), alignment_obj["value"], fill=font_color,font=font)
