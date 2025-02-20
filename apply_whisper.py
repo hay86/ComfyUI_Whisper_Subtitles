@@ -66,9 +66,12 @@ class ApplyWhisperNode:
                 # 转换为小写，并使用正则表达式去除前后非字母数字字符
                 return re.sub(r'^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$', '', word.lower())
 
+            def remove_brackets_and_tags(text):
+                return re.sub(r'\[.*?\]|\<.*?\>', '', text)
+
             final_text = []
             search_start = 0
-            known_text_words = known_text.split()
+            known_text_words = remove_brackets_and_tags(known_text).split()
             known_text_words_key = [clean_word(word) for word in known_text_words]
 
             for segment in segments:
