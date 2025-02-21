@@ -2,6 +2,7 @@ from PIL import ImageDraw, ImageFont, Image
 from .utils import tensor2pil, pil2tensor, tensor2Mask
 import math
 import os
+from tqdm import tqdm
 
 FONT_DIR = os.path.join(os.path.dirname(__file__),"fonts")
 
@@ -78,7 +79,7 @@ class AddSubtitlesToFramesNode:
         
 
         last_frame_no = 0
-        for i in range(len(alignment)):
+        for i in tqdm(range(len(alignment))):
             alignment_obj = alignment[i]
             start_frame_no = math.floor(alignment_obj["start"] * video_fps)
             end_frame_no = math.floor(alignment_obj["end"] * video_fps)
