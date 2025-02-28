@@ -97,7 +97,7 @@ class ApplyWhisperNode:
                     if matched_len == 0:
                         words_alignment[-1]['end'] = word['end']
                     else:
-                        corrected_word = ' '.join(known_text_words[search_start+i] for i in range(matched_len) if search_start+i < len(known_text_words))
+                        corrected_word = ' '.join(known_text_words[search_start+i].rstrip(' ,.') for i in range(matched_len) if search_start+i < len(known_text_words))
                         word_dict = {
                             'value': corrected_word,
                             'start': word['start'],
